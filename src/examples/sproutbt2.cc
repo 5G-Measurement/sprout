@@ -36,8 +36,10 @@ int main( int argc, char *argv[] )
     net = new Network::SproutConnection( "4h/Td1v//4jkYhqhLGgegw", ip, port );
     sprintf (command, "%s_client_send.csv", argv[3]);
     s_logger.open(command);
+    s_logger << "time, packet_size, sprout_time\n";
     sprintf (command, "%s_client_recv.csv", argv[3]);
     r_logger.open(command);
+    r_logger << "time, packet_size\n";
     timeToRun = stod(argv[4]);
   } 
   else if ( argc == 4 ) {
@@ -46,8 +48,10 @@ int main( int argc, char *argv[] )
     printf( "Listening on port: %d\n", net->port() );
     sprintf (command, "%s_server_send.csv", argv[2]);
     s_logger.open(command);
+    s_logger << "time, packet_size, sprout_time\n";
     sprintf (command, "%s_server_recv.csv", argv[2]);
     r_logger.open(command);
+    r_logger << "time, packet_size\n";
     timeToRun = stod(argv[3]);
   } 
   else {
@@ -118,7 +122,7 @@ int main( int argc, char *argv[] )
         }
 
 	      net->send( garbage, time_to_next );
-        s_logger << garbage.size() << "," << time_to_next << "\n";
+        s_logger << relativeTime << "," << garbage.size() << "," << time_to_next << "\n";
       } 
       while ( bytes_to_send > 0 );
 
@@ -144,7 +148,7 @@ int main( int argc, char *argv[] )
     /* receive */
     if ( sel.read( net->fd() ) ) {
       string packet( net->recv() );
-      r_logger << packet.size() << "\n";
+      r_logger << relativeTime << "," << packet.size() << "\n";
     }
   }
   s_logger.close();
