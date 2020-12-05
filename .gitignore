@@ -23,3 +23,10 @@ Makefile.in
 /missing
 /mosh-*.tar.gz
 /stamp-h1
+
+sproutbt2
+compile
+*.csv
+cellproxy
+cellsim
+sproutbt2
